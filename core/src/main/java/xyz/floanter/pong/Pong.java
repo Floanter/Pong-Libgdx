@@ -28,13 +28,14 @@ public class Pong extends ApplicationAdapter
         Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         pixmap.setColor(Color.WHITE);
         pixmap.drawPixel(0, 0);
-        texture = new Texture(pixmap); //remember to dispose of later
+        texture = new Texture(pixmap);
         pixmap.dispose();
+
         TextureRegion region = new TextureRegion(texture, 0, 0, 1, 1);
-        spriteBatch = new SpriteBatch();
-        shapeDrawer = new ShapeDrawer(spriteBatch, region);
-        camera = new OrthographicCamera(Globals.Virtual_Width, Globals.Virtual_Height);
-        viewport = new FitViewport(Globals.Virtual_Width, Globals.Virtual_Height, camera);
+        spriteBatch  = new SpriteBatch();
+        shapeDrawer  = new ShapeDrawer(spriteBatch, region);
+        camera       = new OrthographicCamera(Globals.Virtual_Width, Globals.Virtual_Height);
+        viewport     = new FitViewport(Globals.Virtual_Width, Globals.Virtual_Height, camera);
         sceneManager = new SceneManager(new MenuScene());
     }
 

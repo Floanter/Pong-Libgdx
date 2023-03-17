@@ -33,6 +33,7 @@ public class PlayScene extends Scene
 
     private final Sound hit;
     private final Sound point;
+
     public PlayScene()
     {
         player1 = new Paddle(new Rectangle(10, Globals.Virtual_Height - 30, 5, 20), 1);
@@ -59,7 +60,7 @@ public class PlayScene extends Scene
         switch (currentState)
         {
             case Go:
-                playStateLogic(delta);
+                goStateLogic(delta);
                 break;
             case Serve:
                 serveStateLogic();
@@ -106,36 +107,7 @@ public class PlayScene extends Scene
         font.dispose();
     }
 
-
-    private void drawLines(SpriteBatch spriteBatch, ShapeDrawer shapeDrawer)
-    {
-        spriteBatch.begin();
-        for (float i = 0; i < Globals.Virtual_Height; i+=20)
-            shapeDrawer.filledRectangle((float) (Globals.Virtual_Width / 2 - 1.75), i, 3.5f, 10f, Globals.Things_Color);
-        spriteBatch.end();
-    }
-
-    private void drawScores(SpriteBatch spriteBatch)
-    {
-        font.draw(spriteBatch, "" + player1.getPoints(), Globals.Virtual_Width / 2 - 50, Globals.Virtual_Height - Globals.Virtual_Height / 3);
-        font.draw(spriteBatch, "" + player2.getPoints(), Globals.Virtual_Width / 2 + 30, Globals.Virtual_Height - Globals.Virtual_Height / 3);
-    }
-
-    private void winStateLogic()
-    {
-        boolean isEnterPressed = Gdx.input.isKeyPressed(Input.Keys.ENTER);
-        if (isEnterPressed) sceneManager.changeScene(new MenuScene());
-    }
-
-    private void serveStateLogic()
-    {
-        ball.setRandomDeltaSpeed((int) Globals.getRandomNumber(1, 2));
-
-        boolean IsEnterPressed = Gdx.input.isKeyJustPressed(Input.Keys.ENTER);
-        if (IsEnterPressed) currentState = States.Go;
-        if (player1.getPoints() == 10 || player2.getPoints() == 10) currentState = States.Win;
-    }
-    private void playStateLogic(float delta)
+    private void goStateLogic(float delta)
     {
         ball.update(delta);
 
@@ -144,6 +116,7 @@ public class PlayScene extends Scene
             hit.play();
             ball.reverseDeltaYSpeed();
         }
+        
         boolean ballIsCollidingWithPlayer1 = ball.isCollidingWithPaddle(player1.getPaddleRectangle());
         boolean ballIsCollidingWithPlayer2 = ball.isCollidingWithPaddle(player2.getPaddleRectangle());
         if (ballIsCollidingWithPlayer1 || ballIsCollidingWithPlayer2)
@@ -170,4 +143,34 @@ public class PlayScene extends Scene
             currentState = States.Serve;
         }
     }
+
+    private void serveStateLogic()
+    {
+        ball.setRandomDeltaSpeed((int) Globals.getRandomNumber(1, 2));
+
+        boolean IsEnterPressed = Gdx.input.isKeyJustPressed(Input.Keys.ENTER);
+        if (IsEnterPressed) currentState = States.Go;
+        if (player1.getPoints() == 10 || player2.getPoints() == 10) currentState = States.Win;
+    }
+
+    private void winStateLogic()
+    {
+        boolean isEnterPressed = Gdx.input.isKeyPressed(Input.Keys.ENTER);
+        if (isEnterPressed) sceneManager.changeScene(new MenuScene());
+    }
+
+    private void drawLines(SpriteBatch spriteBatch, ShapeDrawer shapeDrawer)
+    {
+        spriteBatch.begin();
+        for (float i = 0; i < Globals.Virtual_Height; i+=20)
+            shapeDrawer.filledRectangle((float) (Globals.Virtual_Width / 2 - 1.75), i, 3.5f, 10f, Globals.Things_Color);
+        spriteBatch.end();
+    }
+
+    private void drawScores(SpriteBatch spriteBatch)
+    {
+        font.draw(spriteBatch, "" + player1.getPoints(), Globals.Virtual_Width / 2 - 50, Globals.Virtual_Height - Globals.Virtual_Height / 3);
+        font.draw(spriteBatch, "" + player2.getPoints(), Globals.Virtual_Width / 2 + 30, Globals.Virtual_Height - Globals.Virtual_Height / 3);
+    }
+    
 }

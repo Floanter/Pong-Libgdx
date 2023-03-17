@@ -15,6 +15,7 @@ import static xyz.floanter.pong.Pong.sceneManager;
 public class MenuScene extends Scene
 {
     private final BitmapFont font;
+    
     public MenuScene()
     {
         TextureRegion fontTexture = new TextureRegion(new Texture("font.png"));
